@@ -1,0 +1,8 @@
+<h1>Conversation</h1>
+<% @conversations.each do |conversation| %>
+
+<% end %>
+<h2>User List</h2>
+<% @users.each do |user| %>
+	<p><%= link_to user.email, conversation_show_path(other_user_id: user.id) %>
+<% end %>

@@ -1,0 +1,24 @@
+$(document).on 'turbolinks:load', -> 
+	App.cable.subscriptions.remove
+	App.cable.disconnect()
+	App.conversation = App.cable.subscriptions.create {channel: "ConversationChannel", conversation_id: $("#messages").data("conversation-id")},
+		connected: ->
+			# Called when the subscription is ready for use on the server
+			#alert($("#messages").data("conversation-id"))
+
+		disconnected: ->
+			# Called when the subscription has been terminated by the server
+
+		received: (data) ->
+			# Called when there's incoming data on the websocket for this channel
+			$('#messages').prepend data['message']
+
+
+		speak: (message, conversation_id) ->
+			@perform 'speak', message: message, conversation_id: conversation_id
+
+	$(document).on 'keypress', '[data-behavior~=conversation_speaker]', (event) -> 
+		if event.keyCode is 13 # return/enter = send  
+			App.conversation.speak event.target.value,$("#messages").data("conversation-id")
+			event.target.value = '' 
+			event.preventDefault()

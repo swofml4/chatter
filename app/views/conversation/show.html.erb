@@ -1,0 +1,10 @@
+<h1>Conversation with <%= @other_user.email %></h1>
+<form> 
+	<label>Say something:</label><br>
+	<input type="text" data-behavior="conversation_speaker"> 
+</form>
+<div id="messages"  data-conversation-id=<%= @conversation.id %>>
+	<%= render @messages %> 
+</div> 
+
+
